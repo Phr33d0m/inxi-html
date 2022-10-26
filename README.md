@@ -1,6 +1,6 @@
 # Instructions
 
-1. Export your inxi/pinxi output to a json file:
+1. Export your [inxi](https://github.com/smxi/inxi/tree/master) / [pinxi](https://github.com/smxi/inxi/tree/inxi-perl) output to a json file:
     ```bash
     inxi -zv8 --output json --output-file /home/user/inxi.json
     ```
@@ -13,6 +13,10 @@
 
 There is 1 variable in the JavaScript section that you might be interested in:
 - `const jsonPath =` - The path to the json file
+
+# Example
+
+![example](https://user-images.githubusercontent.com/1591486/198081556-128ad12d-f636-4f8b-a48d-adb015584dc5.png)
 
 # Credits
 
