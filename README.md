@@ -5,7 +5,7 @@
     inxi -zv8 --output json --output-file /home/user/inxi.json
     ```
 2. Move the json file to the root of this repository
-3. Open the HTML in your browser or upload both files (.html & .json) somewhere
+3. Upload both files (.html & .json) somewhere (they need to be on a web server)
 4. ???
 5. Profit
 
