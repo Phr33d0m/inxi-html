@@ -70,7 +70,7 @@
 
 <div
         class="container is-max-desktop p-4 content"
-        x-data="{ highlight, inxi: [] }"
+        x-data="{ inxi: [] }"
         x-init="inxi = await normalize(); console.log(inxi)"
 >
     <template x-for="section in inxi">
