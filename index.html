@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>pinxi</title>
+    <title>inxi</title>
 
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -11,14 +11,17 @@
         body {
             font-family: monospace;
         }
+
+        .categories {
+            line-height: 1.3;
+        }
     </style>
 
     <script defer src="https://unpkg.com/lodash.orderby"></script>
     <script defer src="https://unpkg.com/alpinejs"></script>
     <script>
         // Important stuff
-        const jsonPath = 'pinxi.json'
-        const highlight = 'has-text-white has-background-info px-1'
+        const jsonPath = 'inxi.json'
 
         // Stupid stuff
         const module = {}
@@ -50,6 +53,14 @@
             ))
         }
 
+        function getGroupsHighlight(group, index) {
+            const isGroupTitle = !index && !group.item
+            const highlightClass = isGroupTitle
+                ? 'has-background-info-dark is-block mb-1'
+                : 'has-background-info'
+            return `${highlightClass} has-text-white px-1`
+        }
+
         function cleanString(str) {
             return str.split('#').slice(-1).pop()
         }
@@ -59,19 +70,19 @@
 
 <div
         class="container is-max-desktop p-4 content"
-        x-data="{ highlight, pinxi: [] }"
-        x-init="pinxi = await normalize()"
+        x-data="{ highlight, inxi: [] }"
+        x-init="inxi = await normalize(); console.log(inxi)"
 >
-    <template x-for="section in pinxi">
-        <div class="block">
+    <template x-for="section in inxi">
+        <div class="sections block">
             <h2 class="title mb-2" x-text="section.title"></h2>
 
             <blockquote>
                 <template x-for="category in section.categories">
-                    <div>
-                        <template x-for="group in category">
-                            <div class="is-inline">
-                                <span x-text="group.title" x-bind:class="highlight"></span>
+                    <div class="categories mb-1">
+                        <template x-for="(group, index) in category">
+                            <div class="groups is-inline">
+                                <span x-text="group.title" x-bind:class="getGroupsHighlight(group, index)"></span>
                                 <span x-text="group.item"></span>
                             </div>
                         </template>
