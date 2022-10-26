@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>pinxi</title>
+
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: monospace;
+        }
+    </style>
+
+    <script defer src="https://unpkg.com/lodash.orderby"></script>
+    <script defer src="https://unpkg.com/alpinejs"></script>
+    <script>
+        // Important stuff
+        const jsonPath = 'pinxi.json'
+        const highlight = 'has-text-white has-background-info px-1'
+
+        // Stupid stuff
+        const module = {}
+
+        async function normalize() {
+            const json = await (await fetch(jsonPath)).json()
+            return json.map(normalizeCategory)
+        }
+
+        function normalizeCategory(category) {
+            return Object
+                .keys(category)
+                .sort()
+                .map(key => ({
+                    title: cleanString(key),
+                    categories: normalizeGroups(category[key])
+                }))[0]
+        }
+
+        function normalizeGroups(groups) {
+            return groups.map(group => (
+                Object
+                    .keys(group)
+                    .sort()
+                    .map(key => ({
+                        title: cleanString(key),
+                        item: group[key]
+                    }))
+            ))
+        }
+
+        function cleanString(str) {
+            return str.split('#').slice(-1).pop()
+        }
+    </script>
+</head>
+<body>
+
+<div
+        class="container is-max-desktop p-4 content"
+        x-data="{ highlight, pinxi: [] }"
+        x-init="pinxi = await normalize()"
+>
+    <template x-for="section in pinxi">
+        <div class="block">
+            <h2 class="title mb-2" x-text="section.title"></h2>
+
+            <blockquote>
+                <template x-for="category in section.categories">
+                    <div>
+                        <template x-for="group in category">
+                            <div class="is-inline">
+                                <span x-text="group.title" x-bind:class="highlight"></span>
+                                <span x-text="group.item"></span>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </blockquote>
+        </div>
+    </template>
+</div>
+
+</body>
+</html>
